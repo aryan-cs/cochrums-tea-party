@@ -1,3 +1,5 @@
+import { writeDate } from "./firebase";
+
 // canvas
 var canvas;
 const SCALE = 1.6;
@@ -68,7 +70,11 @@ export function createCornerButton (buttonText) {
 
 function cornerButtonClicked () {
 
-  writeDate("test", "test", "test");
+  for (var day = 0; day < 16; day++) {
+
+    writeDate(dayToDate(day));
+
+  }
 
 }
 
@@ -98,3 +104,13 @@ export var renderer = Render.create({
   }
 
 });
+
+function dayToDate (day) {
+
+  var date = new Date();
+  date.setDate(date.getDate() + day);
+  return date;
+
+}
+
+console.log(dayToDate(0));
