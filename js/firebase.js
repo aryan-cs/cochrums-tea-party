@@ -27,9 +27,9 @@ const DB_IDS = {
 
 console.log("firebase loaded!");
 
-async function writeDate (ID, DATE_DATA) { await setDoc(doc(db, DB_IDS.date, ID), { date: DATE_DATA }); }
+export async function writeDate (ID, DATE_DATA) { await setDoc(doc(db, DB_IDS.date, ID), { date: DATE_DATA }); }
 
-async function readDate (ID) {
+export async function readDate (ID) {
 
     const docSnap = await getDoc(doc(db, DB_IDS.date, ID));
 
@@ -39,9 +39,9 @@ async function readDate (ID) {
 
 }
 
-async function writeDuration (ID, DURATION_DATA) { await setDoc(doc(db, DB_IDS.duration, ID), { duration: DURATION_DATA }); }
+export async function writeDuration (ID, DURATION_DATA) { await setDoc(doc(db, DB_IDS.duration, ID), { duration: DURATION_DATA }); }
 
-async function readDuration (ID) {
+export async function readDuration (ID) {
 
     const docSnap = await getDoc(doc(db, DB_IDS.duration, ID));
 
@@ -51,9 +51,9 @@ async function readDuration (ID) {
 
 }
 
-async function writeDescription (ID, DESCRIPTION_DATA) { await setDoc(doc(db, DB_IDS.description, ID), { description: DESCRIPTION_DATA }); }
+export async function writeDescription (ID, DESCRIPTION_DATA) { await setDoc(doc(db, DB_IDS.description, ID), { description: DESCRIPTION_DATA }); }
 
-async function readDescription (ID) {
+export async function readDescription (ID) {
 
     const docSnap = await getDoc(doc(db, DB_IDS.description, ID));
 

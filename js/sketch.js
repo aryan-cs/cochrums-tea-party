@@ -41,6 +41,8 @@ function load () {
 
   console.log("loading data from firebase...");
 
+  
+
 }
 
 setup();
