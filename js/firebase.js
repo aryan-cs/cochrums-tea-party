@@ -33,7 +33,11 @@ export async function readDate (ID) {
 
     const docSnap = await getDoc(doc(db, DB_IDS.date, ID));
 
-    if (docSnap.exists()) { return docSnap.data().date; }
+    if (docSnap.exists()) {
+        
+        return docSnap.data().date;
+
+    }
     
     else { "ERROR GETTING DATE :(" }
 

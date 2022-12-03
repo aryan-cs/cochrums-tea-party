@@ -15,7 +15,7 @@ window.addEventListener("resize", function (ignored) {
 
 // site
 var title = "cochrum's tea party";
-var version = "v 1.0.1";
+var version = "v 1.1.0";
 
 window.onload = function () { document.title = title; document.getElementById("title").innerHTML = title + "  <span style=\"font-size: 30px;\"> " + version + "<\span>"; }
 
@@ -36,7 +36,7 @@ export function createCornerButton (buttonText) {
 
 function cornerButtonClicked () {
 
-  console.log("day " + (day + 1), (date.getMonth() + 1 + "-" + date.getDate() + "-" + date.getFullYear()));
+  
 
 }
 
@@ -74,3 +74,8 @@ function dayToDate (day) {
   return date;
 
 }
+
+export var allDates = [];
+export var allDurations = [];
+export var allDescriptions = [];
+export var datapoints = [];
