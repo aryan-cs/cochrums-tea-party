@@ -34,7 +34,7 @@ export function createCornerButton (buttonText) {
 
 }
 
-function cornerButtonClicked () { }
+function cornerButtonClicked () {}
 
 // colors
 const BACKGROUND_COLOR = getComputedStyle(document.querySelector(":root")).getPropertyValue("--background-color");
