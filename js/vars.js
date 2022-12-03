@@ -1,7 +1,6 @@
-import { writeDate } from "./firebase";
+import { writeDate } from "./firebase.js";
 
 // canvas
-var canvas;
 const SCALE = 1.6;
 const VARIABLE_SCALING = false;
 export const WIDTH = 1200, HEIGHT = 600;
@@ -15,43 +14,10 @@ window.addEventListener("resize", function (ignored) {
 }, true);
 
 // site
-var title = "cochrum tea party";
+var title = "cochrum's tea party";
 var version = "v 1.0.1";
 
 window.onload = function () { document.title = title; document.getElementById("title").innerHTML = title + "  <span style=\"font-size: 30px;\"> " + version + "<\span>"; }
-
-function createInputAndButton (buttonMessage, createMessage) {
-
-  var input = document.createElement("input");
-  input.type = "text";
-  input.id = "inputField";
-  input.className = "field";
-
-  document.getElementById("main").appendChild(input);
-
-  var button = document.createElement("button");
-  button.className = "field_button";
-  button.id = "inputButton";
-  button.textContent = buttonMessage;
-
-  document.getElementById("main").appendChild(button);
-
-  document.getElementById(button.id).addEventListener("click", function () { inputButtonClicked(); });
-
-  if (createMessage) {
-
-    var message = document.createElement("p");
-    message.id = "result";
-    message.className = "message";
-    message.innerHTML = createMessage;
-
-    document.getElementById("main").appendChild(message);
-
-  }
-
-  return [input, button];
-
-}
 
 export function createCornerButton (buttonText) {
 
@@ -70,11 +36,7 @@ export function createCornerButton (buttonText) {
 
 function cornerButtonClicked () {
 
-  for (var day = 0; day < 16; day++) {
-
-    writeDate(dayToDate(day));
-
-  }
+  console.log("day " + (day + 1), (date.getMonth() + 1 + "-" + date.getDate() + "-" + date.getFullYear()));
 
 }
 
@@ -107,10 +69,8 @@ export var renderer = Render.create({
 
 function dayToDate (day) {
 
-  var date = new Date();
+  var date = new Date("2022-11-04");
   date.setDate(date.getDate() + day);
   return date;
 
 }
-
-console.log(dayToDate(0));
