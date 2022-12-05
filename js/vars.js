@@ -3,7 +3,7 @@ import { writeDate } from "./firebase.js";
 // canvas
 const SCALE = 1.6;
 const VARIABLE_SCALING = false;
-export const WIDTH = 1200, HEIGHT = 600;
+export const WIDTH = 800, HEIGHT = 600;
 
 function limit (value, min, max) { return Math.min(Math.max(value, min), max); }
 
@@ -34,7 +34,13 @@ export function createCornerButton (buttonText) {
 
 }
 
-function cornerButtonClicked () {}
+function cornerButtonClicked () {
+
+  console.log("all pulled dates: ", allDates);
+  console.log("all pulled durations: ", allDurations);
+  console.log("all pulled descriptions: ", allDescriptions);
+
+}
 
 // colors
 const BACKGROUND_COLOR = getComputedStyle(document.querySelector(":root")).getPropertyValue("--background-color");
@@ -75,3 +81,5 @@ export var allDates = [];
 export var allDurations = [];
 export var allDescriptions = [];
 export var datapoints = [];
+export const SLOT_WIDTH = WIDTH / 20;
+export const DATABASE_SIZE = 15;

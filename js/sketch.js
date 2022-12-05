@@ -1,5 +1,5 @@
 import { db, readDate, readDescription, readDuration } from "./firebase.js";
-import { allDates, allDurations, allDescriptions, datapoints } from "./vars.js";
+import { allDates, allDurations, allDescriptions, datapoints, SLOT_WIDTH, DATABASE_SIZE } from "./vars.js";
 
 import {
   
@@ -37,7 +37,7 @@ function create () {
 
   for (var dur = 0; dur < 20; dur++) {
 
-    var slot = Matter.Bodies.rectangle((WIDTH / 20) * dur, HEIGHT / 2, 1, HEIGHT, { isStatic: true });
+    var slot = Matter.Bodies.rectangle((SLOT_WIDTH) * dur, HEIGHT / 2, 2, HEIGHT * 2, { isStatic: true, render: { fillStyle: "#00000000" } });
 
     Matter.Composite.add(engine.world, [slot]);
 
@@ -51,7 +51,7 @@ function load () {
 
   console.log("loading data from firebase...");
 
-  for (var d = 0; d < 10; d++) {
+  for (var d = 0; d < DATABASE_SIZE + 1; d++) {
 
     datapoints.push(new Datapoint(d + 1));
 
