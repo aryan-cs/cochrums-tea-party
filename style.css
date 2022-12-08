@@ -36,6 +36,7 @@ canvas {
   left: 0;
   right: 0;
   border-radius: 10px;
+  z-index: 1;
 
   border: 3px solid var(--accent-2);
   
@@ -159,3 +160,43 @@ noscript {
 
 .corner_button:hover { box-shadow: inset 200px 0 0 0 var(--accent-1); }
 
+#results {
+
+  height: 90px;
+  left: 50px;
+  bottom: 50px;
+  position: absolute;
+  color: white;
+  padding: 10px;
+  font-size: 40px;
+  display: flex;
+  flex-direction: row;
+
+}
+
+#date {
+
+  border: 2px solid var(--accent-2);
+  border-radius: 7px;
+  margin: 10px;
+  padding: 10px;
+
+}
+
+#duration {
+
+  border: 2px solid var(--accent-2);
+  border-radius: 7px;
+  margin: 10px;
+  padding: 10px;
+
+}
+
+#description {
+
+  border: 2px solid var(--accent-2);
+  border-radius: 7px;
+  margin: 10px;
+  padding: 10px;
+
+}

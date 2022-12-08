@@ -7,7 +7,9 @@ import {
             allDates,
             allDurations,
             allDescriptions,
-            datapoints
+            datapoints,
+            bodies,
+            world
         
         } from "./vars.js";
 
@@ -48,18 +50,19 @@ export class Datapoint {
             this.yyyy = this.date.substring(this.date.lastIndexOf("/") + 1);
 
             this.dateObject = new Date(this.yyyy + "-" + this.mm + "-" + this.dd);
-            this.size = Math.min(WIDTH, HEIGHT) / (SLOT_WIDTH - 10);
+            this.size = SLOT_WIDTH - 2;
 
 
-            this.body = Matter.Bodies.circle((WIDTH / 20 * this.duration) - this.size / 2,
+            this.body = Matter.Bodies.rectangle((WIDTH / 20 * this.duration) - (this.size / 2) - 1,
                                              (HEIGHT / 20) - (Math.random() * (150 - 75) + (Math.random() * 75)),
+                                              this.size,
                                               this.size,
                                               {
                                                 
-                                                restitution: 0.85,
+                                                restitution: 0.1,
                                                 friction: 0,
                                                 frictionAir: 0,
-                                                density: 0.001,
+                                                density: 0.1,
 
                                                 render: {
 
@@ -68,6 +71,8 @@ export class Datapoint {
                                                 }
                                             
                                             });
+
+            bodies.push(this.body);
 
             Matter.Composite.add(engine.world, [this.body]);
 
