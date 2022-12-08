@@ -53,6 +53,7 @@ var Engine = Matter.Engine,
     Runner = Matter.Runner,
     Bodies = Matter.Bodies,
     Composite = Matter.Composite;
+export var world = Composite.create();
 export var engine = Engine.create();
 export var renderer = Render.create({
 
@@ -81,5 +82,6 @@ export var allDates = [];
 export var allDurations = [];
 export var allDescriptions = [];
 export var datapoints = [];
+export var bodies = [];
 export const SLOT_WIDTH = WIDTH / 20;
 export const DATABASE_SIZE = 15;
