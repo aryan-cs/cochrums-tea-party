@@ -17,14 +17,16 @@ const mouseConstraint = Matter.MouseConstraint.create(engine, { element: documen
 
 Matter.Events.on(mouseConstraint, "mousedown", () => {
 
+  console.log(mouseConstraint)
+
   for (var b = 0; b < datapoints.length; b++) {
 
     if (datapoints[b]) {
 
-      if (datapoints[b].body.position.x <= mouseConstraint.constraint.pointA.x &&
-          mouseConstraint.constraint.pointA.x <= datapoints[b].body.position.x + datapoints[b].size &&
-          datapoints[b].body.position.y <= mouseConstraint.constraint.pointA.y &&
-          mouseConstraint.constraint.pointA.y <= datapoints[b].body.position.y + datapoints[b].size) {
+      if (datapoints[b].body.position.x - (datapoints[b].size / 2) <= mouseConstraint.constraint.pointA.x &&
+          mouseConstraint.constraint.pointA.x <= datapoints[b].body.position.x + (datapoints[b].size / 2) &&
+          datapoints[b].body.position.y - (datapoints[b].size) / 2 <= mouseConstraint.constraint.pointA.y &&
+          mouseConstraint.constraint.pointA.y <= datapoints[b].body.position.y + (datapoints[b].size / 2)) {
 
         var index = datapoints.indexOf(datapoints[b]);
 
@@ -42,8 +44,6 @@ Matter.Events.on(mouseConstraint, "mousedown", () => {
 
 });
 
-function preload () { defaultFont = loadFont("assets/fonts/default.ttf"); }
-
 function setup () {
 
   console.log("setting up...");
@@ -54,14 +54,6 @@ function setup () {
 
   Matter.Runner.run(engine);
   Matter.Render.run(renderer);
-
-}
-
-function tick () {
-
-  // console.log(mouseConstraint);
-
-  requestAnimationFrame(tick);
 
 }
 
@@ -82,8 +74,6 @@ function create () {
   }
 
   Matter.Composite.add(engine.world, [ground]);
-
-  tick();
 
 }
 
