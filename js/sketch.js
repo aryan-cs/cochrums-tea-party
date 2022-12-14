@@ -1,4 +1,4 @@
-import { db, readDate, readDescription, readDuration } from "./firebase.js";
+import { db, readDate, getDates, readDescription, readDuration } from "./firebase.js";
 import { allDates, allDurations, allDescriptions, datapoints, SLOT_WIDTH, DATABASE_SIZE, world } from "./vars.js";
 
 import {
@@ -30,12 +30,10 @@ Matter.Events.on(mouseConstraint, "mousedown", () => {
 
         var index = datapoints.indexOf(datapoints[b]);
 
-        var dateText = readDate("day " + (index + 1)).then((_date) => { document.getElementById("date").innerHTML = _date; });
-        var durationText = readDuration("day " + (index + 1)).then((_duration) => { document.getElementById("duration").innerHTML = _duration + " minutes"; });
-        var descriptionText = readDescription("day " + (index + 1)).then((_description) => { document.getElementById("description").innerHTML = _description; });
-
-        console.log(dateText, durationText, descriptionText);
-
+        document.getElementById("date").innerHTML = datapoints[index].date;
+        document.getElementById("duration").innerHTML = datapoints[index].duration + " minutes";
+        document.getElementById("description").innerHTML = datapoints[index].description;
+        
       }
 
     }
@@ -81,9 +79,13 @@ function load () {
 
   console.log("loading data from firebase...");
 
-  for (var d = 0; d < DATABASE_SIZE + 1; d++) { datapoints.push(new Datapoint(d + 1)); }
+  var days = getDates().then((dates) => {
+    
+    for (var d = 0; d < dates.length; d++) { datapoints.push(new Datapoint(d + 1)); }
 
-  Matter.World.add(world, mouseConstraint);
+    Matter.World.add(world, mouseConstraint);
+  
+  });
 
 }
 

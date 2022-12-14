@@ -43,6 +43,18 @@ export async function readDate (ID) {
 
 }
 
+export async function getDates () {
+
+    const querySnapshot = await getDocs(collection(db, DB_IDS.date));
+
+    var dates = [];
+
+    querySnapshot.forEach((doc) => { dates.push(doc.data().date); });
+
+    return dates;
+
+}
+
 export async function writeDuration (ID, DURATION_DATA) { await setDoc(doc(db, DB_IDS.duration, ID), { duration: DURATION_DATA }); }
 
 export async function readDuration (ID) {
@@ -55,6 +67,18 @@ export async function readDuration (ID) {
 
 }
 
+export async function getDurations () {
+
+    const querySnapshot = await getDocs(collection(db, DB_IDS.duration));
+
+    var durations = [];
+
+    querySnapshot.forEach((doc) => { durations.push(doc.data().duration); });
+
+    return durations;
+
+}
+
 export async function writeDescription (ID, DESCRIPTION_DATA) { await setDoc(doc(db, DB_IDS.description, ID), { description: DESCRIPTION_DATA }); }
 
 export async function readDescription (ID) {
@@ -64,5 +88,17 @@ export async function readDescription (ID) {
     if (docSnap.exists()) { return docSnap.data().description; }
     
     else { "ERROR GETTING DESCRIPTION :(" }
+
+}
+
+export async function getDescriptions () {
+
+    const querySnapshot = await getDocs(collection(db, DB_IDS.description));
+
+    var descriptions = [];
+
+    querySnapshot.forEach((doc) => { descriptions.push(doc.data().description); });
+
+    return descriptions;
 
 }
