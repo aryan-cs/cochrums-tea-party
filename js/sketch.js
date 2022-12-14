@@ -1,5 +1,5 @@
-import { db, readDate, getDates, readDescription, readDuration } from "./firebase.js";
-import { allDates, allDurations, allDescriptions, datapoints, SLOT_WIDTH, DATABASE_SIZE, world } from "./vars.js";
+import { db, readDate, getDates, readDescription, readDuration, getDurations } from "./firebase.js";
+import { allDates, allDurations, allDescriptions, datapoints, world, dateToDay } from "./vars.js";
 
 import {
   
@@ -14,10 +14,9 @@ import {
 import { Datapoint } from "./datapoint.js";
 
 const mouseConstraint = Matter.MouseConstraint.create(engine, { element: document.getElementsByTagName("canvas")[0] });
+export var SLOT_WIDTH = WIDTH;
 
 Matter.Events.on(mouseConstraint, "mousedown", () => {
-
-  console.log(mouseConstraint)
 
   for (var b = 0; b < datapoints.length; b++) {
 
@@ -59,33 +58,45 @@ function create () {
 
   console.log("creating bodies...");
 
-  load();
+  var longest = -1;
   
-  var ground = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 20, { isStatic: true });
+  var durations = getDurations().then((durations) => {
 
-  for (var dur = 0; dur < 20; dur++) {
+    for (var d = 0; d < durations.length; d++) {
 
-    var slot = Matter.Bodies.rectangle((SLOT_WIDTH) * dur, HEIGHT / 2, 2, HEIGHT * 2, { isStatic: true, render: { fillStyle: "#000000" } });
+      if (durations[d] > longest) { longest = durations[d]; }
 
-    Matter.Composite.add(engine.world, [slot]);
+    }
 
-  }
+    SLOT_WIDTH = WIDTH / longest;
 
-  Matter.Composite.add(engine.world, [ground]);
+    var ground = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 20, { isStatic: true });
 
-}
+    for (var dur = 0; dur < longest; dur++) {
 
-function load () {
+      var slot = Matter.Bodies.rectangle((SLOT_WIDTH) * dur, HEIGHT / 2, 1, HEIGHT * 2, { isStatic: true, render: { fillStyle: "#00000000" } });
 
-  console.log("loading data from firebase...");
+      Matter.Composite.add(engine.world, [slot]);
+
+    }
+
+    Matter.Composite.add(engine.world, [ground]);
+
+  });
 
   var days = getDates().then((dates) => {
+
+    console.log(dates)
     
     for (var d = 0; d < dates.length; d++) { datapoints.push(new Datapoint(d + 1)); }
 
     Matter.World.add(world, mouseConstraint);
+
+    console.log(datapoints);
   
   });
+
+  console.log(SLOT_WIDTH);
 
 }
 

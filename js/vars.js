@@ -50,15 +50,39 @@ function cornerButtonClicked () {
     writeDuration("day " + day, duration);
     writeDescription("day " + day, description);
 
-    for (var i = 0; i < datapoints.length; i++) { if (datapoints[i]) { if (datapoints[i].day == day) {
-      
-      Matter.Composite.remove(world, datapoints[i].body);
-      datapoints.splice(i, 1);
-      console.log(datapoints);
-    
-    } } }
+    let added = false;
+    let longest = -1;
 
-    datapoints.push(new Datapoint(day));
+    for (var i = 0; i < datapoints.length; i++) {
+      
+      if (datapoints[i]) {
+        
+        if (datapoints[i].day == day) {
+
+          Matter.Composite.remove(engine.world, datapoints[i].body);
+      
+          datapoints[i] = new Datapoint(day);
+          added = true;
+    
+        }
+
+      }
+
+      if (datapoints[i].duration > longest) { longest = datapoints[i].duration; }
+
+    }
+
+    if (!added) { datapoints.push(new Datapoint(day)); }
+
+    for (var d = 0; d < datapoints.length; d++) {
+
+      if (datapoints[i].duration > longest) {
+
+        create();
+        
+      }
+
+    }
 
   }
 
@@ -100,7 +124,9 @@ function dayToDate (day) {
 
 }
 
-function dateToDay (date) {
+export function dateToDay (date) {
+
+  console.log(date);
 
   let mm = date.substring(0, date.indexOf("/"));
   let dd = date.substring(date.indexOf("/") + 1, date.lastIndexOf("/"));
@@ -117,5 +143,3 @@ export var allDurations = [];
 export var allDescriptions = [];
 export var datapoints = [];
 export var bodies = [];
-export const SLOT_WIDTH = WIDTH / 20;
-export const DATABASE_SIZE = 15;

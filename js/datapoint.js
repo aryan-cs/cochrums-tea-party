@@ -2,7 +2,6 @@ import {
             
             WIDTH,
             HEIGHT,
-            SLOT_WIDTH,
             engine,
             allDates,
             allDurations,
@@ -14,6 +13,8 @@ import {
 } from "./vars.js";
 
 import { readDate, readDuration, readDescription } from "./firebase.js";
+
+import { SLOT_WIDTH } from "./sketch.js";
 
 export class Datapoint {
 
@@ -44,8 +45,9 @@ export class Datapoint {
 
     initialize = () => {
 
-        if (this.date !== null && this.duration !== null && !this.description !== null && !this.initialized) {
+        if (this.date !== null && this.duration !== null && !this.description !== null && !this.initialized && this.date !== undefined) {
 
+            console.log(this.date);
             this.mm = this.date.substring(0, this.date.indexOf("/"));
             this.dd = this.date.substring(this.date.indexOf("/") + 1, this.date.lastIndexOf("/"));
             this.yyyy = this.date.substring(this.date.lastIndexOf("/") + 1);
@@ -53,21 +55,18 @@ export class Datapoint {
             this.dateObject = new Date(this.yyyy + "-" + this.mm + "-" + this.dd);
             this.size = SLOT_WIDTH - 2;
 
-            this.body = Matter.Bodies.rectangle((WIDTH / 20 * this.duration) - (this.size / 2) - 1,
+            this.body = Matter.Bodies.rectangle((SLOT_WIDTH * this.duration) - (this.size / 2) - 1,
                                              (HEIGHT / 20) - (Math.random() * (150 - 75) + (Math.random() * 75)),
                                               this.size,
                                               this.size,
                                               {
-                                                
-                                                restitution: 0.1,
-                                                friction: 0,
-                                                frictionAir: 0,
-                                                density: 0.1,
 
                                                 render: {
 
-                                                    // fillStyle: "rgb(" + 255 / this.duration + ", " + 255 / this.duration + ", " + 255 / this.duration + ")",
-
+                                                    fillStyle: "#dbdbdb",
+                                                    strokeStyle: "#a8a8a8",
+                                                    lineWidth: 2
+                                                    
                                                 }
                                             
                                             });
