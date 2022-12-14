@@ -1,4 +1,4 @@
-import { db, readDate, readDescription, readDuration } from "./firebase.js";
+import { db, readDate, getDates, readDescription, readDuration } from "./firebase.js";
 import { allDates, allDurations, allDescriptions, datapoints, SLOT_WIDTH, DATABASE_SIZE, world } from "./vars.js";
 
 import {
@@ -21,19 +21,17 @@ Matter.Events.on(mouseConstraint, "mousedown", () => {
 
     if (datapoints[b]) {
 
-      if (datapoints[b].body.position.x <= mouseConstraint.constraint.pointA.x &&
-          mouseConstraint.constraint.pointA.x <= datapoints[b].body.position.x + datapoints[b].size &&
-          datapoints[b].body.position.y <= mouseConstraint.constraint.pointA.y &&
-          mouseConstraint.constraint.pointA.y <= datapoints[b].body.position.y + datapoints[b].size) {
+      if (datapoints[b].body.position.x - (datapoints[b].size / 2) <= mouseConstraint.constraint.pointA.x &&
+          mouseConstraint.constraint.pointA.x <= datapoints[b].body.position.x + (datapoints[b].size / 2) &&
+          datapoints[b].body.position.y - (datapoints[b].size) / 2 <= mouseConstraint.constraint.pointA.y &&
+          mouseConstraint.constraint.pointA.y <= datapoints[b].body.position.y + (datapoints[b].size / 2)) {
 
         var index = datapoints.indexOf(datapoints[b]);
 
-        var dateText = readDate("day " + (index + 1)).then((_date) => { document.getElementById("date").innerHTML = _date; });
-        var durationText = readDuration("day " + (index + 1)).then((_duration) => { document.getElementById("duration").innerHTML = _duration + " minutes"; });
-        var descriptionText = readDescription("day " + (index + 1)).then((_description) => { document.getElementById("description").innerHTML = _description; });
-
-        console.log(dateText, durationText, descriptionText);
-
+        document.getElementById("date").innerHTML = datapoints[index].date;
+        document.getElementById("duration").innerHTML = datapoints[index].duration + " minutes";
+        document.getElementById("description").innerHTML = datapoints[index].description;
+        
       }
 
     }
@@ -41,8 +39,6 @@ Matter.Events.on(mouseConstraint, "mousedown", () => {
   }
 
 });
-
-function preload () { defaultFont = loadFont("assets/fonts/default.ttf"); }
 
 function setup () {
 
@@ -54,14 +50,6 @@ function setup () {
 
   Matter.Runner.run(engine);
   Matter.Render.run(renderer);
-
-}
-
-function tick () {
-
-  // console.log(mouseConstraint);
-
-  requestAnimationFrame(tick);
 
 }
 
@@ -83,17 +71,19 @@ function create () {
 
   Matter.Composite.add(engine.world, [ground]);
 
-  tick();
-
 }
 
 function load () {
 
   console.log("loading data from firebase...");
 
-  for (var d = 0; d < DATABASE_SIZE + 1; d++) { datapoints.push(new Datapoint(d + 1)); }
+  var days = getDates().then((dates) => {
+    
+    for (var d = 0; d < dates.length; d++) { datapoints.push(new Datapoint(d + 1)); }
 
-  Matter.World.add(world, mouseConstraint);
+    Matter.World.add(world, mouseConstraint);
+  
+  });
 
 }
 
