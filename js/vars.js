@@ -16,7 +16,7 @@ window.addEventListener("resize", function (ignored) {
 
 // site
 var title = "cochrum's tea party";
-var version = "v 1.1.0";
+var version = "v 1.8.3";
 
 window.onload = function () { document.title = title; document.getElementById("title").innerHTML = title + "  <span style=\"font-size: 30px;\"> " + version + "<\span>"; }
 
@@ -40,6 +40,29 @@ function cornerButtonClicked () {
   document.getElementById("edit").style.display = "block";
   document.getElementById("lightsOut").style.display = "block";
   document.getElementById("submit").addEventListener("click", function () { submitForm(); });
+  document.getElementById("lightsOut").addEventListener("click", function (event) {
+
+    if (event.target.id == "lightsOut") {
+      
+      document.getElementById("edit").style.display = "none";
+      document.getElementById("lightsOut").style.display = "none";
+
+    }
+  
+  });
+
+  document.onkeydown = function(evt) {
+
+    evt = evt || window.event;
+
+    if (evt.keyCode == 27) {
+
+      document.getElementById("edit").style.display = "none";
+      document.getElementById("lightsOut").style.display = "none";
+
+    }
+
+};
 
 }
 
@@ -113,7 +136,7 @@ export var renderer = Render.create({
     width: WIDTH,
     height: HEIGHT,
     wireframes: false,
-    background: BACKGROUND_COLOR
+    background: "#1a1a1a"
 
   }
 
