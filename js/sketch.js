@@ -72,7 +72,7 @@ function create () {
 
     SLOT_WIDTH = WIDTH / longest;
 
-    var ground = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 20, { isStatic: true });
+    var ground = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 20, { isStatic: true, render: { fillStyle: "#171616" } });
 
     for (var dur = 0; dur < longest; dur++) {
 
