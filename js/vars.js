@@ -37,10 +37,20 @@ export function createCornerButton (buttonText) {
 
 function cornerButtonClicked () {
 
-  var day = parseInt(prompt("Enter a day #:"));
-  var date = prompt("Enter a date (MM/DD/YYYY):");
-  var duration = parseInt(prompt("Enter a duration (in minutes):"));
-  var description = prompt("Enter a description:");
+  document.getElementById("edit").style.display = "block";
+  document.getElementById("lightsOut").style.display = "block";
+  document.getElementById("submit").addEventListener("click", function () { submitForm(); });
+
+}
+
+function submitForm () {
+
+  console.log("submitting form...");
+
+  var day = document.getElementById("dayNumField").value;
+  var date = document.getElementById("dateField").value;
+  var duration = parseInt(document.getElementById("durationField").value);
+  var description = document.getElementById("descriptionField").value;
 
   if (date && duration && description) {
 
@@ -74,17 +84,10 @@ function cornerButtonClicked () {
 
     if (!added) { datapoints.push(new Datapoint(day)); }
 
-    for (var d = 0; d < datapoints.length; d++) {
-
-      if (datapoints[i].duration > longest) {
-
-        create();
-        
-      }
-
-    }
-
   }
+
+  document.getElementById("edit").style.display = "none";
+  document.getElementById("lightsOut").style.display = "none";
 
 }
 

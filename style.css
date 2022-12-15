@@ -29,6 +29,11 @@ canvas {
 
   border: 3px solid var(--accent-2);
   border-radius: 15px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
   
 }
 
@@ -159,6 +164,7 @@ noscript {
   font-size: 40px;
   display: flex;
   flex-direction: row;
+  z-index: 3;
 
 }
 
@@ -186,5 +192,75 @@ noscript {
   border-radius: 7px;
   margin: 10px;
   padding: 10px;
+
+}
+
+#lightsOut {
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  background-color: rgba(0, 0, 0, 0.6);
+
+}
+
+#edit {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font-size: 30px;
+  background-color: var(--background-color);
+  z-index: 5;
+  padding-top: 6vh;
+  padding-bottom: 6vh;
+  border-radius: 10px;
+  border: 3px solid var(--accent-2);
+
+}
+
+#edit input {
+
+  width: 80%;
+  height: 8vh;
+  margin: 2vh;
+  padding: 1vh;
+  padding-left: 2vh;
+  border-radius: 10px;
+  border: 3px solid var(--accent-2);
+  background-color: var(--accent-2);
+  color: var(--background-color);
+  font-size: 3vh;
+  font-family: defaultFont;
+
+}
+
+#edit button {
+
+  width: 84%;
+  height: 9vh;
+  margin: 2vh;
+  padding: 1vh;
+  border-radius: 10px;
+  background-color: var(--accent-2);
+  color: var(--background-color);
+  font-size: 3vh;
+  font-family: defaultFont;
+
+  box-shadow: inset 0 0 0 0 var(--accent-color);
+  -webkit-transition: ease-out .4s;
+  -moz-transition: ease-out .4s;
+  transition: ease-out .4s;
+
+}
+
+#edit button:hover {
+
+  box-shadow: inset 800px 0 0 0 var(--accent-1);
 
 }

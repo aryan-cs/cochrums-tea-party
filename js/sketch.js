@@ -46,6 +46,8 @@ function setup () {
   console.log("setting up...");
 
   createCornerButton("edit");
+  document.getElementById("edit").style.display = "none";
+  document.getElementById("lightsOut").style.display = "none";
 
   create();
 
