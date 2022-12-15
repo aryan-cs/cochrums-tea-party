@@ -1,9 +1,10 @@
-import { writeDate } from "./firebase.js";
+import { getDates, writeDate, writeDuration, writeDescription } from "./firebase.js";
+import { Datapoint } from "./datapoint.js";
 
 // canvas
 const SCALE = 1.6;
 const VARIABLE_SCALING = false;
-export const WIDTH = 800, HEIGHT = 600;
+export const WIDTH = window.innerWidth * 0.6, HEIGHT = window.innerHeight * 0.6;
 
 function limit (value, min, max) { return Math.min(Math.max(value, min), max); }
 
@@ -36,9 +37,54 @@ export function createCornerButton (buttonText) {
 
 function cornerButtonClicked () {
 
-  console.log("all pulled dates: ", allDates);
-  console.log("all pulled durations: ", allDurations);
-  console.log("all pulled descriptions: ", allDescriptions);
+  var day = parseInt(prompt("Enter a day #:"));
+  var date = prompt("Enter a date (MM/DD/YYYY):");
+  var duration = parseInt(prompt("Enter a duration (in minutes):"));
+  var description = prompt("Enter a description:");
+
+  if (date && duration && description) {
+
+    console.log("adding new datapoint...");
+
+    writeDate("day " + day, date);
+    writeDuration("day " + day, duration);
+    writeDescription("day " + day, description);
+
+    let added = false;
+    let longest = -1;
+
+    for (var i = 0; i < datapoints.length; i++) {
+      
+      if (datapoints[i]) {
+        
+        if (datapoints[i].day == day) {
+
+          Matter.Composite.remove(engine.world, datapoints[i].body);
+      
+          datapoints[i] = new Datapoint(day);
+          added = true;
+    
+        }
+
+      }
+
+      if (datapoints[i].duration > longest) { longest = datapoints[i].duration; }
+
+    }
+
+    if (!added) { datapoints.push(new Datapoint(day)); }
+
+    for (var d = 0; d < datapoints.length; d++) {
+
+      if (datapoints[i].duration > longest) {
+
+        create();
+        
+      }
+
+    }
+
+  }
 
 }
 
@@ -72,9 +118,23 @@ export var renderer = Render.create({
 
 function dayToDate (day) {
 
-  var date = new Date("2022-11-04");
+  var date = new Date("2022-11-03");
   date.setDate(date.getDate() + day);
   return date;
+
+}
+
+export function dateToDay (date) {
+
+  console.log(date);
+
+  let mm = date.substring(0, date.indexOf("/"));
+  let dd = date.substring(date.indexOf("/") + 1, date.lastIndexOf("/"));
+  let yyyy = date.substring(date.lastIndexOf("/") + 1);
+
+  let dateObject = new Date(yyyy + "-" + mm + "-" + dd);
+
+  return parseInt(Math.floor((dateObject - new Date("2022-11-03")) / (1000 * 60 * 60 * 24)));
 
 }
 
@@ -83,5 +143,3 @@ export var allDurations = [];
 export var allDescriptions = [];
 export var datapoints = [];
 export var bodies = [];
-export const SLOT_WIDTH = WIDTH / 20;
-export const DATABASE_SIZE = 15;
