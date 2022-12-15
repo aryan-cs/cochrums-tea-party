@@ -40,6 +40,29 @@ function cornerButtonClicked () {
   document.getElementById("edit").style.display = "block";
   document.getElementById("lightsOut").style.display = "block";
   document.getElementById("submit").addEventListener("click", function () { submitForm(); });
+  document.getElementById("lightsOut").addEventListener("click", function (event) {
+
+    if (event.target.id == "lightsOut") {
+      
+      document.getElementById("edit").style.display = "none";
+      document.getElementById("lightsOut").style.display = "none";
+
+    }
+  
+  });
+
+  document.onkeydown = function(evt) {
+
+    evt = evt || window.event;
+
+    if (evt.keyCode == 27) {
+
+      document.getElementById("edit").style.display = "none";
+      document.getElementById("lightsOut").style.display = "none";
+
+    }
+
+};
 
 }
 
