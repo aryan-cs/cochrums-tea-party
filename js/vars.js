@@ -16,7 +16,7 @@ window.addEventListener("resize", function (ignored) {
 
 // site
 var title = "cochrum's tea party";
-var version = "v 1.8.3";
+var version = "v 1.8.5";
 
 window.onload = function () { document.title = title; document.getElementById("title").innerHTML = title + "  <span style=\"font-size: 30px;\"> " + version + "<\span>"; }
 

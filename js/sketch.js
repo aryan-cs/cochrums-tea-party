@@ -89,6 +89,8 @@ function create () {
   var days = getDates().then((dates) => {
 
     console.log(dates)
+
+    document.getElementById("dayNumField").placeholder = "enter day # (currently " + (dates.length - 1) + " days)";
     
     for (var d = 0; d < dates.length; d++) { datapoints.push(new Datapoint(d + 1)); }
 
