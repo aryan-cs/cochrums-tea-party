@@ -4,7 +4,7 @@ import { Datapoint } from "./datapoint.js";
 // canvas
 const SCALE = 1.6;
 const VARIABLE_SCALING = false;
-export const WIDTH = 800, HEIGHT = 600;
+export const WIDTH = window.innerWidth * 0.6, HEIGHT = window.innerHeight * 0.6;
 
 function limit (value, min, max) { return Math.min(Math.max(value, min), max); }
 

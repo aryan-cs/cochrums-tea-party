@@ -45,7 +45,7 @@ function setup () {
 
   console.log("setting up...");
 
-  createCornerButton("add");
+  createCornerButton("edit");
 
   create();
 
