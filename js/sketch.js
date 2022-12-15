@@ -1,5 +1,5 @@
-import { db, readDate, readDescription, readDuration } from "./firebase.js";
-import { allDates, allDurations, allDescriptions, datapoints, SLOT_WIDTH, DATABASE_SIZE, world } from "./vars.js";
+import { db, readDate, getDates, readDescription, readDuration, getDurations } from "./firebase.js";
+import { allDates, allDurations, allDescriptions, datapoints, world, dateToDay } from "./vars.js";
 
 import {
   
@@ -14,6 +14,7 @@ import {
 import { Datapoint } from "./datapoint.js";
 
 const mouseConstraint = Matter.MouseConstraint.create(engine, { element: document.getElementsByTagName("canvas")[0] });
+export var SLOT_WIDTH = WIDTH;
 
 Matter.Events.on(mouseConstraint, "mousedown", () => {
 
@@ -21,19 +22,17 @@ Matter.Events.on(mouseConstraint, "mousedown", () => {
 
     if (datapoints[b]) {
 
-      if (datapoints[b].body.position.x <= mouseConstraint.constraint.pointA.x &&
-          mouseConstraint.constraint.pointA.x <= datapoints[b].body.position.x + datapoints[b].size &&
-          datapoints[b].body.position.y <= mouseConstraint.constraint.pointA.y &&
-          mouseConstraint.constraint.pointA.y <= datapoints[b].body.position.y + datapoints[b].size) {
+      if (datapoints[b].body.position.x - (datapoints[b].size / 2) <= mouseConstraint.constraint.pointA.x &&
+          mouseConstraint.constraint.pointA.x <= datapoints[b].body.position.x + (datapoints[b].size / 2) &&
+          datapoints[b].body.position.y - (datapoints[b].size) / 2 <= mouseConstraint.constraint.pointA.y &&
+          mouseConstraint.constraint.pointA.y <= datapoints[b].body.position.y + (datapoints[b].size / 2)) {
 
         var index = datapoints.indexOf(datapoints[b]);
 
-        var dateText = readDate("day " + (index + 1)).then((_date) => { document.getElementById("date").innerHTML = _date; });
-        var durationText = readDuration("day " + (index + 1)).then((_duration) => { document.getElementById("duration").innerHTML = _duration + " minutes"; });
-        var descriptionText = readDescription("day " + (index + 1)).then((_description) => { document.getElementById("description").innerHTML = _description; });
-
-        console.log(dateText, durationText, descriptionText);
-
+        document.getElementById("date").innerHTML = datapoints[index].date;
+        document.getElementById("duration").innerHTML = datapoints[index].duration + " minutes";
+        document.getElementById("description").innerHTML = datapoints[index].description;
+        
       }
 
     }
@@ -42,13 +41,13 @@ Matter.Events.on(mouseConstraint, "mousedown", () => {
 
 });
 
-function preload () { defaultFont = loadFont("assets/fonts/default.ttf"); }
-
 function setup () {
 
   console.log("setting up...");
 
-  createCornerButton("add");
+  createCornerButton("edit");
+  document.getElementById("edit").style.display = "none";
+  document.getElementById("lightsOut").style.display = "none";
 
   create();
 
@@ -57,43 +56,49 @@ function setup () {
 
 }
 
-function tick () {
-
-  // console.log(mouseConstraint);
-
-  requestAnimationFrame(tick);
-
-}
-
 function create () {
 
   console.log("creating bodies...");
 
-  load();
+  var longest = -1;
   
-  var ground = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 20, { isStatic: true });
+  var durations = getDurations().then((durations) => {
 
-  for (var dur = 0; dur < 20; dur++) {
+    for (var d = 0; d < durations.length; d++) {
 
-    var slot = Matter.Bodies.rectangle((SLOT_WIDTH) * dur, HEIGHT / 2, 2, HEIGHT * 2, { isStatic: true, render: { fillStyle: "#000000" } });
+      if (durations[d] > longest) { longest = durations[d]; }
 
-    Matter.Composite.add(engine.world, [slot]);
+    }
 
-  }
+    SLOT_WIDTH = WIDTH / longest;
 
-  Matter.Composite.add(engine.world, [ground]);
+    var ground = Matter.Bodies.rectangle(WIDTH / 2, HEIGHT - 10, WIDTH, 20, { isStatic: true });
 
-  tick();
+    for (var dur = 0; dur < longest; dur++) {
 
-}
+      var slot = Matter.Bodies.rectangle((SLOT_WIDTH) * dur, HEIGHT / 2, 1, HEIGHT * 2, { isStatic: true, render: { fillStyle: "#00000000" } });
 
-function load () {
+      Matter.Composite.add(engine.world, [slot]);
 
-  console.log("loading data from firebase...");
+    }
 
-  for (var d = 0; d < DATABASE_SIZE + 1; d++) { datapoints.push(new Datapoint(d + 1)); }
+    Matter.Composite.add(engine.world, [ground]);
 
-  Matter.World.add(world, mouseConstraint);
+  });
+
+  var days = getDates().then((dates) => {
+
+    console.log(dates)
+    
+    for (var d = 0; d < dates.length; d++) { datapoints.push(new Datapoint(d + 1)); }
+
+    Matter.World.add(world, mouseConstraint);
+
+    console.log(datapoints);
+  
+  });
+
+  console.log(SLOT_WIDTH);
 
 }
 
